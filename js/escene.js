@@ -1,0 +1,61 @@
+//escenario
+const scene=new THREE.Scene();
+scene.background = new THREE.Color(0x0000000)
+
+
+
+//camara
+const camera = new THREE.PerspectiveCamera( 75, 
+window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+//render
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
+
+
+const geometry = new THREE.TorusKnotGeometry(8, 2, 150, 2 );
+
+const textureLoader = new THREE.TextureLoader();
+const matcap = textureLoader.load("../img/hola1.jpg");
+const material =new THREE.MeshMatcapMaterial();
+
+material.matcap = matcap;
+material.flatShading = true;
+
+const TorusKnot = new THREE.Mesh( geometry, material );
+scene.add( TorusKnot );
+
+const edges = new THREE.EdgesGeometry( geometry );
+const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xC642FA } ) );
+scene.add( line );
+
+camera.position.z = 20;
+
+/* Orbit control */
+
+var control = new THREE.OrbitControls( camera, renderer.domElement );
+
+
+//Funcion
+function animate() {
+	requestAnimationFrame( animate );
+  TorusKnot.rotation.x += 0.01;
+	TorusKnot.rotation.y += 0.01;
+	renderer.render( scene, camera );
+	line.rotation.x += 0.01;
+	line.rotation.y += 0.01;
+}
+animate();
+
+
+
+
+
+
+
+
+
+
+
+
